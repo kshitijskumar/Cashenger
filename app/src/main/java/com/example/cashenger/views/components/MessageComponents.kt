@@ -46,7 +46,7 @@ fun SelfMessageComponent(
         Text(
             text = stringResource(id = R.string.me),
             color = Grey,
-            fontSize = 16.sp,
+            fontSize = 12.sp,
             fontWeight = FontWeight.Light,
             modifier = Modifier.padding(10.dp, 0.dp)
         )
