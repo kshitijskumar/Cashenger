@@ -23,14 +23,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.cashenger.R
+import com.example.cashenger.domain.chat.models.SelfMessageModel
 import com.example.cashenger.ui.theme.LightGrey
 import com.example.cashenger.utils.ExpenseCategory
 import com.example.cashenger.utils.FeaturesResources
 
 
 @Composable
-fun MessageFieldComponent() {
-    
+fun MessageFieldComponent(
+    onSendClick: (SelfMessageModel) -> Unit = {}
+) {
+
     var textCommand by rememberSaveable {
         mutableStateOf("")
     }
@@ -41,7 +44,7 @@ fun MessageFieldComponent() {
     var areCategoriesVisible by remember {
         mutableStateOf(false)
     }
-    
+
     Column(
         verticalArrangement = Arrangement.Bottom,
         modifier = Modifier
@@ -84,7 +87,17 @@ fun MessageFieldComponent() {
             )
 
             if (textCommand.isNotEmpty()) {
-                IconButton(onClick = {  }) {
+                IconButton(onClick = {
+                    val msgBody = SelfMessageModel(
+                        msgText = textCommand,
+                        category = currSelectedCategory
+                    )
+                    onSendClick.invoke(msgBody)
+                    //reset
+                    textCommand = ""
+                    currSelectedCategory = ExpenseCategory.Other
+                    areCategoriesVisible = false
+                }) {
                     Image(
                         imageVector = Icons.Default.Send,
                         contentDescription = "send button",
@@ -119,7 +132,8 @@ fun AddCategoryComponent(
             .wrapContentHeight()
     ) {
         items(FeaturesResources.supportedCategoriesList) { category ->
-            val categoryBackground = if (selectedCategory == category) category.bgColor else LightGrey
+            val categoryBackground =
+                if (selectedCategory == category) category.bgColor else LightGrey
             IconButton(
                 onClick = { categoryClick.invoke(category) },
                 modifier = Modifier
