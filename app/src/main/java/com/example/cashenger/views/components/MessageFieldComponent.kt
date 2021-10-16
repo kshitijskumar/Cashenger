@@ -18,6 +18,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.example.cashenger.R
 import com.example.cashenger.domain.chat.models.SelfMessageModel
 import com.example.cashenger.ui.theme.LightGrey
+import com.example.cashenger.ui.theme.MetallicDarkBlue
 import com.example.cashenger.utils.ExpenseCategory
 import com.example.cashenger.utils.FeaturesResources
 
@@ -87,17 +89,19 @@ fun MessageFieldComponent(
             )
 
             if (textCommand.isNotEmpty()) {
-                IconButton(onClick = {
-                    val msgBody = SelfMessageModel(
-                        msgText = textCommand,
-                        category = currSelectedCategory
-                    )
-                    onSendClick.invoke(msgBody)
-                    //reset
-                    textCommand = ""
-                    currSelectedCategory = ExpenseCategory.Other
-                    areCategoriesVisible = false
-                }) {
+                IconButton(
+                    onClick = {
+                        val msgBody = SelfMessageModel(
+                            msgText = textCommand,
+                            category = currSelectedCategory
+                        )
+                        onSendClick.invoke(msgBody)
+                        //reset
+                        textCommand = ""
+                        currSelectedCategory = ExpenseCategory.Other
+                        areCategoriesVisible = false
+                    }
+                ) {
                     Image(
                         imageVector = Icons.Default.Send,
                         contentDescription = "send button",
@@ -105,9 +109,9 @@ fun MessageFieldComponent(
                             .padding(4.dp)
                             .fillMaxHeight()
                             .aspectRatio(1f)
-                            .background(LightGrey, CircleShape)
-                            .padding(10.dp)
-
+                            .background(MetallicDarkBlue, CircleShape)
+                            .padding(10.dp),
+                        colorFilter = ColorFilter.tint(Color.White)
                     )
                 }
             }

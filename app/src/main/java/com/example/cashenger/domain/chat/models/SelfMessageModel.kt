@@ -4,9 +4,9 @@ import com.example.cashenger.utils.ExpenseCategory
 import com.example.cashenger.utils.FeaturesResources
 
 data class SelfMessageModel(
-    val msgText: String = "add (200) for (scooty petrol) in (expense)",
+    val msgText: String = "",
     val timeStamp: String = FeaturesResources.getCurrentTimestamp(),
-    val category: ExpenseCategory = ExpenseCategory.Food
+    val category: ExpenseCategory = ExpenseCategory.Other
 ) : MessageBody {
     override val isSelf: Boolean
         get() = true

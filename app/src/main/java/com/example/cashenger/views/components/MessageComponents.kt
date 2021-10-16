@@ -1,5 +1,6 @@
 package com.example.cashenger.views.components
 
+import android.text.Html
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*

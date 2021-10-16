@@ -29,4 +29,21 @@ object FeaturesResources {
         return formatter.format(this)
     }
 
+    fun replyMessageForError() = "Sorry I am not sure how to process this request."
+
+    fun possibleCommandsMessage() : String {
+        return """These are some possible commands 
+            
+            |1. show all cmds : Shows all possible commands 
+            |2. add (amount) for (title) in (expense/income) : Adds the expense details 
+            |3. show all : Shows all expenses and incomes 
+            |4. show expenses : Shows all expenses 
+            |5. show incomes : Shows all incomes""".trimMargin()
+    }
+
+    fun fieldIncompleteMessage() = "Please make sure you mention all the details in your message (amount, title and expense/income)"
+
+    fun invalidAmountMessage() = "Please enter a valid amount."
+
+    fun incorrectExpenseOrIncomeMessage() = "Not sure whether to put it in expense or income. Please clarify again"
 }
