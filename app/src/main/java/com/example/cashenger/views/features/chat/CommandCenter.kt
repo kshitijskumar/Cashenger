@@ -12,6 +12,15 @@ class CommandCenter {
             Commands.AddExpenseCommand.regexPattern.matcher(processedMsg).matches() -> {
                 onAddExpenseCommandReceived(userMsg = userMsg)
             }
+            Commands.ShowAll.regexPattern.matcher(processedMsg).matches() -> {
+                CommandSpecificResponse.ShowAllResponse
+            }
+            Commands.ShowExpenses.regexPattern.matcher(processedMsg).matches() -> {
+                CommandSpecificResponse.ShowAllExpenses
+            }
+            Commands.ShowIncomes.regexPattern.matcher(processedMsg).matches() -> {
+                CommandSpecificResponse.ShowAllIncomes
+            }
             else -> {
                 CommandSpecificResponse.NoCommandResponse
             }

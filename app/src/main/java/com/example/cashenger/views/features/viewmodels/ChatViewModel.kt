@@ -1,6 +1,5 @@
 package com.example.cashenger.views.features.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.cashenger.domain.chat.models.CommandSpecificResponse
 import com.example.cashenger.domain.chat.models.MessageBody
@@ -16,13 +15,8 @@ import com.example.cashenger.utils.Injector
 import com.example.cashenger.views.features.chat.CommandCenter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.Exception
 import java.lang.NumberFormatException
 
 class ChatViewModel(
@@ -47,6 +41,15 @@ class ChatViewModel(
             }
             is CommandSpecificResponse.AddExpenseCommandResponse -> {
                 handleAddExpenseDetails(response)
+            }
+            is CommandSpecificResponse.ShowAllResponse -> {
+                postNewReplies(ReplyMessageModel("showed"))
+            }
+            is CommandSpecificResponse.ShowAllIncomes -> {
+                postNewReplies(ReplyMessageModel("shows inc"))
+            }
+            is CommandSpecificResponse.ShowAllExpenses -> {
+                postNewReplies(ReplyMessageModel("show exp"))
             }
         }
     }

@@ -33,4 +33,11 @@ class ExampleUnitTest {
         val command = "add(200)for(scooty petrol)in(expense)"
         assertEquals(false, pattern.matches(command))
     }
+
+    @Test
+    fun showAllExpenseCommand_on_success_asserts_true() {
+        val pattern = Pattern.compile("show all")
+        val a = "show all"
+        assertEquals(true, pattern.matcher(a).matches())
+    }
 }

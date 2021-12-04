@@ -10,4 +10,8 @@ sealed class CommandSpecificResponse {
         val expenseTitle: String? = null,
         val expenseOrIncome: String? = null
     ) : CommandSpecificResponse()
+
+    object ShowAllResponse : CommandSpecificResponse()
+    object ShowAllExpenses : CommandSpecificResponse()
+    object ShowAllIncomes : CommandSpecificResponse()
 }
