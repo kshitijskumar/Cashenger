@@ -9,6 +9,7 @@ import com.example.cashenger.utils.FeaturesResources
 import com.example.cashenger.utils.FeaturesResources.fieldIncompleteMessage
 import com.example.cashenger.utils.FeaturesResources.incorrectExpenseOrIncomeMessage
 import com.example.cashenger.utils.FeaturesResources.invalidAmountMessage
+import com.example.cashenger.utils.FeaturesResources.possibleCommandsMessage
 import com.example.cashenger.utils.FieldIncompleteException
 import com.example.cashenger.utils.IncorrectIncomeExpenseException
 import com.example.cashenger.utils.Injector
@@ -50,6 +51,9 @@ class ChatViewModel(
             }
             is CommandSpecificResponse.ShowAllExpenses -> {
                 postNewReplies(ReplyMessageModel("show exp"))
+            }
+            is CommandSpecificResponse.ShowAllCmds -> {
+                postNewReplies(ReplyMessageModel(possibleCommandsMessage()))
             }
         }
     }

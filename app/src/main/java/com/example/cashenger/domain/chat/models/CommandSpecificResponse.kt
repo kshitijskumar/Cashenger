@@ -14,4 +14,5 @@ sealed class CommandSpecificResponse {
     object ShowAllResponse : CommandSpecificResponse()
     object ShowAllExpenses : CommandSpecificResponse()
     object ShowAllIncomes : CommandSpecificResponse()
+    object ShowAllCmds : CommandSpecificResponse()
 }

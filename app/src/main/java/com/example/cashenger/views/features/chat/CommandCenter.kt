@@ -21,6 +21,9 @@ class CommandCenter {
             Commands.ShowIncomes.regexPattern.matcher(processedMsg).matches() -> {
                 CommandSpecificResponse.ShowAllIncomes
             }
+            Commands.ShowAllCmds.regexPattern.matcher(processedMsg).matches() -> {
+                CommandSpecificResponse.ShowAllCmds
+            }
             else -> {
                 CommandSpecificResponse.NoCommandResponse
             }

@@ -8,4 +8,5 @@ sealed class Commands(val regexPattern: Pattern) {
     object ShowExpenses : Commands(Pattern.compile("showexpenses"))
     object ShowIncomes : Commands(Pattern.compile("showincomes"))
     object ShowAll : Commands(Pattern.compile("showall"))
+    object ShowAllCmds : Commands(Pattern.compile("showallcmds"))
 }
