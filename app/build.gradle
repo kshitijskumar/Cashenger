@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -79,6 +80,12 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+
+    def roomVersion = "2.3.0"
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt("androidx.room:room-compiler:$roomVersion")
+    implementation "androidx.room:room-ktx:$roomVersion"
+
 
 
 }

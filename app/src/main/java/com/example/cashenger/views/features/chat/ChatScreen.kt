@@ -5,14 +5,20 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.cashenger.R
 import com.example.cashenger.domain.chat.models.ReplyMessageModel
 import com.example.cashenger.domain.chat.models.SelfMessageModel
+import com.example.cashenger.ui.theme.Grey
 import com.example.cashenger.views.components.MessageFieldComponent
 import com.example.cashenger.views.components.ReplyMessageComponent
 import com.example.cashenger.views.components.SelfMessageComponent
@@ -24,7 +30,7 @@ fun ChatScreen(
     chatVM: ChatViewModel = viewModel(factory = ChatViewModel.Companion.ChatVmFactory())
 ) {
     val msgsListState = chatVM.chatMsgs.observeAsState(initial = listOf())
-
+    val isResponseTyping = chatVM.isResponseTyping.observeAsState(initial = false)
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         content = {
@@ -47,6 +53,15 @@ fun ChatScreen(
                             )
                         }
                     }
+                }
+                if (isResponseTyping.value) {
+                    Text(
+                        text = stringResource(id = R.string.typing___),
+                        color = Grey,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Light,
+                        modifier = Modifier.padding(10.dp, 0.dp)
+                    )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
                 MessageFieldComponent(

@@ -5,6 +5,7 @@ import com.example.cashenger.domain.chat.models.CommandSpecificResponse
 import com.example.cashenger.domain.chat.models.MessageBody
 import com.example.cashenger.domain.chat.models.ReplyMessageModel
 import com.example.cashenger.domain.chat.models.SelfMessageModel
+import com.example.cashenger.domain.records.repository.RecordsRepository
 import com.example.cashenger.utils.FeaturesResources
 import com.example.cashenger.utils.FeaturesResources.fieldIncompleteMessage
 import com.example.cashenger.utils.FeaturesResources.incorrectExpenseOrIncomeMessage
@@ -21,16 +22,22 @@ import kotlinx.coroutines.withContext
 import java.lang.NumberFormatException
 
 class ChatViewModel(
-    private val commandCenter: CommandCenter
+    private val commandCenter: CommandCenter,
+    private val recordsRepo: RecordsRepository
 ) : ViewModel() {
 
     private val _chatMsgs =
         MutableLiveData<List<MessageBody>>(listOf(FeaturesResources.getInitialWelcomeMessage()))
     val chatMsgs: LiveData<List<MessageBody>> get() = _chatMsgs
 
+    private val _isResponseTyping = MutableLiveData<Boolean>(false)
+    val isResponseTyping: LiveData<Boolean> get() = _isResponseTyping
+
     fun sendMessage(msgModel: SelfMessageModel) = viewModelScope.launch {
         postNewReplies(msgBody = msgModel)
+        _isResponseTyping.value = true
         delay(200)
+        _isResponseTyping.value = false
         processReplyForTheMessage(msgModel)
     }
 
@@ -38,10 +45,10 @@ class ChatViewModel(
         when (val response = commandCenter.verifyUserMessage(msgModel.msgText)) {
             is CommandSpecificResponse.NoCommandResponse -> {
                 postNewReplies(ReplyMessageModel(FeaturesResources.replyMessageForError()))
-                postNewReplies(ReplyMessageModel(FeaturesResources.possibleCommandsMessage()))
+                postNewReplies(ReplyMessageModel(possibleCommandsMessage()))
             }
             is CommandSpecificResponse.AddExpenseCommandResponse -> {
-                handleAddExpenseDetails(response)
+                handleAddExpenseDetails(response, msgModel)
             }
             is CommandSpecificResponse.ShowAllResponse -> {
                 postNewReplies(ReplyMessageModel("showed"))
@@ -67,7 +74,8 @@ class ChatViewModel(
     }
 
     private suspend fun handleAddExpenseDetails(
-        responseDetails: CommandSpecificResponse.AddExpenseCommandResponse
+        responseDetails: CommandSpecificResponse.AddExpenseCommandResponse,
+        selfMsgModel: SelfMessageModel
     ) = withContext(Dispatchers.Main) {
         try {
             val amount = responseDetails.amount
@@ -83,6 +91,9 @@ class ChatViewModel(
                 else -> throw IncorrectIncomeExpenseException()
             }
 
+            viewModelScope.launch {
+                recordsRepo.insertOrUpdateAmountDetails(expenseTitle, amount.toLong(), isExpense, selfMsgModel.category.categoryId)
+            }
             postNewReplies(ReplyMessageModel("ok done"))
 
         } catch (e: NumberFormatException) {
@@ -97,7 +108,10 @@ class ChatViewModel(
     companion object {
         class ChatVmFactory : ViewModelProvider.NewInstanceFactory() {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                return ChatViewModel(Injector.getInjector().providesCommandCenter()) as T
+                return ChatViewModel(
+                    Injector.getInjector().providesCommandCenter(),
+                    Injector.getInjector().providesRecordsRepository()
+                ) as T
             }
         }
 
