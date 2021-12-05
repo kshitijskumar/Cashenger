@@ -1,5 +1,6 @@
 package com.example.cashenger.views.features.chat
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,15 +23,33 @@ import com.example.cashenger.ui.theme.Grey
 import com.example.cashenger.views.components.MessageFieldComponent
 import com.example.cashenger.views.components.ReplyMessageComponent
 import com.example.cashenger.views.components.SelfMessageComponent
+import com.example.cashenger.views.features.records.RecordsDestinationType
 import com.example.cashenger.views.features.viewmodels.ChatViewModel
 
 @ExperimentalFoundationApi
 @Composable
 fun ChatScreen(
+    fromChatToDestination: FromChatToDestination = FromChatToDestination(),
     chatVM: ChatViewModel = viewModel(factory = ChatViewModel.Companion.ChatVmFactory())
 ) {
     val msgsListState = chatVM.chatMsgs.observeAsState(initial = listOf())
     val isResponseTyping = chatVM.isResponseTyping.observeAsState(initial = false)
+
+    chatVM.navigateToRecordsCallback = {
+        when(it) {
+            is RecordsDestinationType.AllTransactions -> {
+                fromChatToDestination.navigateToRecords.invoke("all")
+            }
+            is RecordsDestinationType.Income -> {
+                fromChatToDestination.navigateToRecords.invoke("income")
+            }
+            is RecordsDestinationType.Expense -> {
+                fromChatToDestination.navigateToRecords.invoke(("expense"))
+            }
+            else -> Unit
+        }
+    }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         content = {
@@ -39,9 +58,6 @@ fun ChatScreen(
                     modifier = Modifier.weight(1f),
                     reverseLayout = true
                 ) {
-//                    stickyHeader {
-//                        TopAppBarComponent()
-//                    }
                     items(items = msgsListState.value.reversed()) { message ->
                         if (message is SelfMessageModel) {
                             SelfMessageComponent(

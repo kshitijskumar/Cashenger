@@ -15,6 +15,7 @@ import com.example.cashenger.utils.FieldIncompleteException
 import com.example.cashenger.utils.IncorrectIncomeExpenseException
 import com.example.cashenger.utils.Injector
 import com.example.cashenger.views.features.chat.CommandCenter
+import com.example.cashenger.views.features.records.RecordsDestinationType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -32,6 +33,8 @@ class ChatViewModel(
 
     private val _isResponseTyping = MutableLiveData<Boolean>(false)
     val isResponseTyping: LiveData<Boolean> get() = _isResponseTyping
+
+    var navigateToRecordsCallback: (RecordsDestinationType) -> Unit = {}
 
     fun sendMessage(msgModel: SelfMessageModel) = viewModelScope.launch {
         postNewReplies(msgBody = msgModel)
@@ -51,13 +54,17 @@ class ChatViewModel(
                 handleAddExpenseDetails(response, msgModel)
             }
             is CommandSpecificResponse.ShowAllResponse -> {
-                postNewReplies(ReplyMessageModel("showed"))
+                postNewReplies(ReplyMessageModel("Follow me for all transactions"))
+                navigateToRecordsCallback.invoke(RecordsDestinationType.AllTransactions)
             }
             is CommandSpecificResponse.ShowAllIncomes -> {
-                postNewReplies(ReplyMessageModel("shows inc"))
+                postNewReplies(ReplyMessageModel("Follow me for all incomes"))
+                navigateToRecordsCallback.invoke(RecordsDestinationType.Income)
+
             }
             is CommandSpecificResponse.ShowAllExpenses -> {
-                postNewReplies(ReplyMessageModel("show exp"))
+                postNewReplies(ReplyMessageModel("Follow me for all expenses"))
+                navigateToRecordsCallback.invoke(RecordsDestinationType.Expense)
             }
             is CommandSpecificResponse.ShowAllCmds -> {
                 postNewReplies(ReplyMessageModel(possibleCommandsMessage()))
