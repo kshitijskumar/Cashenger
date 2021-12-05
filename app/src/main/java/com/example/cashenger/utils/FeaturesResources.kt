@@ -50,7 +50,7 @@ object FeaturesResources {
     fun addCommandHandledMsg(amount: String, reason: String, intoSection: String) = "$amount added for $reason  into $intoSection."
 
     fun getCommandsSuggestions() = listOf<String>(
-        "add () for () in ()",
+        "add (amount) for (title) in (i/e)",
         "show all",
         "show incomes",
         "show expenses"
