@@ -56,6 +56,15 @@ fun MessageFieldComponent(
                 )
             )
     ) {
+
+        if (textCommand.isEmpty()) {
+            SuggestionMessageComponent(
+                FeaturesResources.getCommandsSuggestions()
+            ) {
+               textCommand = it
+            }
+        }
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -151,6 +160,21 @@ fun AddCategoryComponent(
                         .size(28.dp)
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun SuggestionMessageComponent(
+    suggestions: List<String> = listOf(),
+    onSuggestionClick: (suggestion: String) -> Unit = {}
+) {
+    LazyRow(
+        contentPadding = PaddingValues(3.dp, 3.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        items(items = suggestions) { item ->
+            CommandSuggestionComponent(item, onSuggestionClick)
         }
     }
 }

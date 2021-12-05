@@ -48,4 +48,11 @@ object FeaturesResources {
     fun incorrectExpenseOrIncomeMessage() = "Not sure whether to put it in expense or income. Please clarify again"
 
     fun addCommandHandledMsg(amount: String, reason: String, intoSection: String) = "$amount added for $reason  into $intoSection."
+
+    fun getCommandsSuggestions() = listOf<String>(
+        "add () for () in ()",
+        "show all",
+        "show incomes",
+        "show expenses"
+    )
 }
