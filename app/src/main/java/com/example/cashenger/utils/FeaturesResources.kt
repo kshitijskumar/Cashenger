@@ -46,4 +46,6 @@ object FeaturesResources {
     fun invalidAmountMessage() = "Please enter a valid amount."
 
     fun incorrectExpenseOrIncomeMessage() = "Not sure whether to put it in expense or income. Please clarify again"
+
+    fun addCommandHandledMsg(amount: String, reason: String, intoSection: String) = "$amount added for $reason  into $intoSection."
 }

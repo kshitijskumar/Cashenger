@@ -53,4 +53,14 @@ class RecordsRepository(
             }
         }
     }
+
+    suspend fun getAllTransactions() : List<IncomeExpenseModel> {
+        return withContext(Dispatchers.IO) {
+            try {
+                recordsDao.getAllTransactions()
+            } catch (e: Exception) {
+                listOf()
+            }
+        }
+    }
 }

@@ -17,4 +17,7 @@ interface RecordsDao {
 
     @Query("SELECT * FROM income_expense_table WHERE NOT(isExpense)")
     suspend fun getAllIncomeRecords() : List<IncomeExpenseModel>
+
+    @Query("SELECT * FROM income_expense_table")
+    suspend fun getAllTransactions() : List<IncomeExpenseModel>
 }

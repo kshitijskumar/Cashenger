@@ -16,7 +16,6 @@ class Injector private constructor() {
     private var recordsDao: RecordsDao? = null
 
 
-
     fun providesCommandCenter() : CommandCenter {
         return createOrReturnCreated(
             underConsideration = commandCenter,

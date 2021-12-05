@@ -91,10 +91,9 @@ class ChatViewModel(
                 else -> throw IncorrectIncomeExpenseException()
             }
 
-            viewModelScope.launch {
-                recordsRepo.insertOrUpdateAmountDetails(expenseTitle, amount.toLong(), isExpense, selfMsgModel.category.categoryId)
-            }
-            postNewReplies(ReplyMessageModel("ok done"))
+            recordsRepo.insertOrUpdateAmountDetails(expenseTitle, amountInLong, isExpense, selfMsgModel.category.categoryId)
+
+            postNewReplies(ReplyMessageModel(FeaturesResources.addCommandHandledMsg(amount, expenseTitle, expenseOrIncome)))
 
         } catch (e: NumberFormatException) {
             postNewReplies(ReplyMessageModel(invalidAmountMessage()))
