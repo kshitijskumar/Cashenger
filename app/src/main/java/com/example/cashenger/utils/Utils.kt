@@ -8,7 +8,7 @@ object Utils {
     fun getCurrentDateTime() : String {
         val calendar = Calendar.getInstance()
         val currentDateTime = calendar.time
-        return SimpleDateFormat("HH:mm dd//MM/yy", Locale.getDefault()).format(currentDateTime)
+        return SimpleDateFormat("HH:mm dd/MM/yy", Locale.getDefault()).format(currentDateTime)
     }
 
 }

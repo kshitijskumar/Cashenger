@@ -22,12 +22,14 @@ fun CashengerNavigation(
     NavHost(navController = navController, startDestination = Screens.ChatScreen.route) {
         composable(
             route = Screens.ChatScreen.route,
-            arguments = listOf(navArgument("{navigateFor}"){ type = NavType.StringType })
+            arguments = listOf(navArgument("navigateFor"){ type = NavType.StringType })
         ) {
             ChatScreen(getChatScreenNavigation(navController))
         }
         composable(route = Screens.ListScreen.route) {
-            RecordsListScreen()
+            RecordsListScreen(
+                navigatingFor = it.arguments?.getString("navigateFor") ?: "all"
+            )
         }
     }
 }

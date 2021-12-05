@@ -7,4 +7,10 @@
     <string name="no_command_found_error_reply">Sorry I am not sure how to process this request.</string>
     <string name="possible_commands">These are some possible commands \n\n1. <b>show all cmds</b> : Shows all possible commands \n2.<b> add (amount) for (title) in (expense/income)</b> : Adds the expense details \n3. <b>show all</b> : Shows all expenses and incomes \n4.<b>show expenses</b> : Shows all expenses \n5.<b>show incomes</b> : Shows all incomes</string>
     <string name="typing...">Typing...</string>
+    <string name="vault_of_x">Vault of %1$s</string>
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
+    <string name="amount_on"> amount on</string>
+    <string name="amount_cause_highlight">\" %1$s \"</string>
+    <string name="no_transaction_found">No Transactions found \nyou broke piece of shit!</string>
 </resources>

@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.ui.graphics.Color
 import com.example.cashenger.R
 import com.example.cashenger.ui.theme.*
+import com.example.cashenger.utils.FeaturesResources.supportedCategoriesList
 
 sealed class ExpenseCategory(val categoryId: Int, @DrawableRes val categoryIconRes: Int? = null, val bgColor: Color) {
     object Other : ExpenseCategory(categoryId = -1, categoryIconRes = R.drawable.ic_cancel, Grey)
@@ -14,4 +15,9 @@ sealed class ExpenseCategory(val categoryId: Int, @DrawableRes val categoryIconR
     object Salary : ExpenseCategory(categoryId = 4, categoryIconRes = R.drawable.ic_money_sack, Green)
     object Travel : ExpenseCategory(categoryId = 5, categoryIconRes = R.drawable.ic_travel, Blue)
     object Education : ExpenseCategory(categoryId = 6, categoryIconRes = R.drawable.ic_education, Magenta)
+}
+
+fun getExpenseCategoryBasedOnCategoryId(categoryId: Int) : ExpenseCategory {
+    val expenseCategories = supportedCategoriesList
+    return expenseCategories.find { it.categoryId == categoryId } ?: ExpenseCategory.Other
 }
