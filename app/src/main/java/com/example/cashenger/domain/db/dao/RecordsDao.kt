@@ -1,9 +1,6 @@
 package com.example.cashenger.domain.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.cashenger.domain.records.models.IncomeExpenseModel
 
 @Dao
@@ -20,4 +17,7 @@ interface RecordsDao {
 
     @Query("SELECT * FROM income_expense_table")
     suspend fun getAllTransactions() : List<IncomeExpenseModel>
+
+    @Delete
+    suspend fun deleteTransaction(transaction: IncomeExpenseModel)
 }

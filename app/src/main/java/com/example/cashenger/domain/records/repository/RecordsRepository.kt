@@ -63,4 +63,14 @@ class RecordsRepository(
             }
         }
     }
+
+    suspend fun deleteTransactionRecord(transaction: IncomeExpenseModel) {
+        withContext(Dispatchers.IO) {
+            try {
+                recordsDao.deleteTransaction(transaction)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
 }

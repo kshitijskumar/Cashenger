@@ -13,4 +13,9 @@
     <string name="amount_on"> amount on</string>
     <string name="amount_cause_highlight">\" %1$s \"</string>
     <string name="no_transaction_found">No Transactions found \nyou broke piece of shit!</string>
+    <string name="delete_transaction">Delete Transaction?</string>
+    <string name="are_you_sure_you_want_to_delete_transaction">Are you sure you want to delete this record of %1$s done on %2$s ?</string>
+    <string name="yes">Yes</string>
+    <string name="i_want_to_edit">I want to edit</string>
+    <string name="cancel">Cancel</string>
 </resources>

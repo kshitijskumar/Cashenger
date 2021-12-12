@@ -5,6 +5,7 @@ import com.example.cashenger.domain.records.models.IncomeExpenseModel
 import com.example.cashenger.domain.records.repository.RecordsRepository
 import com.example.cashenger.utils.Injector
 import com.example.cashenger.views.features.records.RecordsScreenState
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
 class RecordsViewModel(
@@ -26,6 +27,20 @@ class RecordsViewModel(
         }
         _uiState.value = if (transactions.isEmpty()) RecordsScreenState.NoTransactionsFound else RecordsScreenState.ShowTransactions
         _transactionsList.value = transactions
+    }
+
+    fun deleteTransaction(transaction: IncomeExpenseModel) = viewModelScope.launch {
+        repo.deleteTransactionRecord(transaction)
+        updateCurrentList(transaction)
+    }
+
+    private fun updateCurrentList(transaction: IncomeExpenseModel) {
+        val currentList = _transactionsList.value?.toMutableList() ?: return
+        currentList.remove(transaction)
+        _transactionsList.value = currentList
+        if (currentList.isEmpty()) {
+            _uiState.value = RecordsScreenState.NoTransactionsFound
+        }
     }
 
     companion object {
