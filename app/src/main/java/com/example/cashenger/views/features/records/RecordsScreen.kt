@@ -1,6 +1,5 @@
 package com.example.cashenger.views.features.records
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -23,9 +22,8 @@ import com.example.cashenger.views.features.viewmodels.RecordsViewModel
 fun RecordsListScreen(
     navigatingFor: String = "all",
     recordsVm: RecordsViewModel = viewModel(modelClass = RecordsViewModel::class.java, factory = RecordsViewModel.Companion.RecordViewModelFactory()),
+    fromRecordsToDestination: FromRecordsScreenToDestination = FromRecordsScreenToDestination()
 ) {
-
-    Log.d("RecordsStuff", "compose")
 
     val transactionsList = recordsVm.transactionsList.observeAsState(initial = listOf())
     val uiState = recordsVm.uiState.observeAsState()
@@ -56,7 +54,9 @@ fun RecordsListScreen(
                                 transactionItem = it
                             },
                             onItemClick = {
-
+                                it.id?.let { transactionId ->
+                                    fromRecordsToDestination.fromRecordsToEdit.invoke(transactionId)
+                                }
                             }
                         )
                     }
@@ -80,6 +80,9 @@ fun RecordsListScreen(
                     },
                     onEditClick = {
                         //edit
+                        transaction.id?.let { transactionId ->
+                            fromRecordsToDestination.fromRecordsToEdit.invoke(transactionId)
+                        }
                         dismissCallback.invoke()
                     }
                 )
