@@ -33,12 +33,13 @@ import com.example.cashenger.utils.FeaturesResources
 
 @Composable
 fun MessageFieldComponent(
-    onSendClick: (SelfMessageModel) -> Unit = {}
+    onSendClick: (SelfMessageModel) -> Unit = {},
+    textCommand: MutableState<String> = mutableStateOf("")
 ) {
 
-    var textCommand by rememberSaveable {
-        mutableStateOf("")
-    }
+//    var textCommand by rememberSaveable {
+//        _textCommand
+//    }
     var currSelectedCategory by remember {
         mutableStateOf<ExpenseCategory>(value = ExpenseCategory.Other)
     }
@@ -57,11 +58,11 @@ fun MessageFieldComponent(
             )
     ) {
 
-        if (textCommand.isEmpty()) {
+        if (textCommand.value.isEmpty()) {
             SuggestionMessageComponent(
                 FeaturesResources.getCommandsSuggestions()
             ) {
-               textCommand = it
+               textCommand.value = it
             }
         }
 
@@ -85,8 +86,8 @@ fun MessageFieldComponent(
             }
 
             TextField(
-                value = textCommand,
-                onValueChange = { textCommand = it },
+                value = textCommand.value,
+                onValueChange = { textCommand.value = it },
                 modifier = Modifier.weight(1f),
                 shape = RoundedCornerShape(30.dp),
                 placeholder = { Text(text = stringResource(id = R.string.enter_your_message_here)) },
@@ -97,16 +98,16 @@ fun MessageFieldComponent(
                 )
             )
 
-            if (textCommand.isNotEmpty()) {
+            if (textCommand.value.isNotEmpty()) {
                 IconButton(
                     onClick = {
                         val msgBody = SelfMessageModel(
-                            msgText = textCommand,
+                            msgText = textCommand.value,
                             category = currSelectedCategory
                         )
                         onSendClick.invoke(msgBody)
                         //reset
-                        textCommand = ""
+                        textCommand.value = ""
                         currSelectedCategory = ExpenseCategory.Other
                         areCategoriesVisible = false
                     }
